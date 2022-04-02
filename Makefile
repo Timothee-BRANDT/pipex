@@ -4,9 +4,10 @@ CC = gcc
 
 FLAGS = -Wall -Wextra -Werror
 
-SRC	=	main.c	\
-		utils.c	\
-		split.c	\
+SRC	=	main.c		\
+		parsing.c	\
+		utils.c		\
+		split.c		\
 
 OBJS = ${SRC:.c=.o}
 
