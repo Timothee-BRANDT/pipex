@@ -7,7 +7,7 @@ int	check_file(char *file, int code)
 		if (access(file, F_OK))
 		{
 			perror(file);
-			return (0);
+			exit(EXIT_FAILURE);
 		}
 		return (open(file, O_RDONLY));
 	}
