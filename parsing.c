@@ -23,7 +23,6 @@ char	*get_correct_cmd(char **path, char **cmd)
 		cmd_path = ft_strjoin(path[i], cmd[0]);
 		if (!access(cmd_path, F_OK | X_OK))
 			return (cmd_path);
-		//free(cmd_path);
 		i++;
 	}
 	return (NULL);
