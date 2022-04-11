@@ -37,20 +37,25 @@ void	pipex(char **av, char **envp)
 	int		pipe_fd[2];
 	int		pid;
 
+	// pipre_fd[0] - read
+	// pipe_fd[1] - write
 	pipe(pipe_fd);
 	pid = fork();
 	path = get_all_path(envp);
-	if (!pid)
+	if (pid == 0)
 	{
 		close(pipe_fd[0]);
-		dup2(pipe_fd[1], 1);
+		dup2(pipe_fd[1], 1); // close stdout and be a copy of write end of the pipe
 		run(av[2], path, envp);
 		waitpid(pid, NULL, 0);
 	}
-	close(pipe_fd[1]);
-	dup2(pipe_fd[0], 0);
-	run(av[3], path, envp);
-	free_tab(path);
+	else
+	{
+		close(pipe_fd[1]);
+		dup2(pipe_fd[0], 0); // close stdin and be a copy of read end of the pipe
+		run(av[3], path, envp);
+		free_tab(path);
+	}
 }
 
 int main(int ac, char *av[], char *envp[])

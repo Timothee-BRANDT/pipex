@@ -15,7 +15,7 @@ char	**get_all_path(char **envp)
 char	*get_correct_cmd(char **path, char **cmd)
 {
 	char	*cmd_path;
-	size_t	i;
+	int		i;
 
 	i = 0;
 	while (path[i])
