@@ -19,16 +19,12 @@ void	run(char *arg, char **path, char **envp)
 {
 	char **cmd_and_flags;
 	char *correct_cmd;
-
+		
 	cmd_and_flags = ft_split(arg, ' ');
 	correct_cmd = get_correct_cmd(path, cmd_and_flags);
 	if (execve(correct_cmd, cmd_and_flags, envp) == -1)
-	{
 		write(2, "Command execution failed\n", 25);
-		exit(EXIT_FAILURE);
-	}
-	free(correct_cmd);
-	free_tab(cmd_and_flags);
+	exit(EXIT_FAILURE);
 }
 
 void	pipex(char **av, char **envp)
@@ -40,17 +36,18 @@ void	pipex(char **av, char **envp)
 	// pipre_fd[0] - read
 	// pipe_fd[1] - write
 	pipe(pipe_fd);
-	pid = fork();
 	path = get_all_path(envp);
+	pid = fork();
 	if (pid == 0)
 	{
 		close(pipe_fd[0]);
 		dup2(pipe_fd[1], 1); // close stdout and be a copy of write end of the pipe
+		close(pipe_fd[1]);
 		run(av[2], path, envp);
-		waitpid(pid, NULL, 0);
 	}
 	else
 	{
+		waitpid(pid, NULL, 0);
 		close(pipe_fd[1]);
 		dup2(pipe_fd[0], 0); // close stdin and be a copy of read end of the pipe
 		run(av[3], path, envp);

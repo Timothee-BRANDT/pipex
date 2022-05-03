@@ -45,10 +45,10 @@ char	**ft_split(const char *str, char c)
 		return (NULL);
 	while (++i < count_words((char *)str, c))
 	{
-		tab[i] = malloc(sizeof(char) * (size_words(((str + j + 1)), c)) + 1);
-		k = 0;
 		while (str[j] && str[j] == c)
 			j++;
+		tab[i] = malloc(sizeof(char) * (size_words(str + j, c) + 1));
+		k = 0;
 		while (str[j] && str[j] != c)
 			tab[i][k++] = str[j++];
 		tab[i][k] = 0;
