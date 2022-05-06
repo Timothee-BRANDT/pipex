@@ -6,7 +6,7 @@
 /*   By: tbrandt <tbrandt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 17:31:04 by tbrandt           #+#    #+#             */
-/*   Updated: 2022/05/06 12:08:19 by tbrandt          ###   ########.fr       */
+/*   Updated: 2022/05/06 12:20:04 by tbrandt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ int	check_file(char *file, int code)
 {
 	if (code == 0)
 	{
-		if (access(file, R_OK) || access(file, W_OK) || access(file, X_OK))
-			return (-2);
 		if (access(file, F_OK) == -1)
 		{
 			perror(file);
 			exit(EXIT_FAILURE);
 		}
+		if (access(file, R_OK))
+			return (-1);
 		return (open(file, O_RDONLY));
 	}
 	else
@@ -102,7 +102,7 @@ int	main(int ac, char *av[], char *envp[])
 	if (ac == 5)
 	{
 		infile_fd = check_file(av[1], 0);
-		if (infile_fd == -2)
+		if (infile_fd == -1)
 		{
 			write(2, "zsh: permission denied.\n", 24);
 			exit(EXIT_FAILURE);
