@@ -2,7 +2,7 @@ NAME = pipex
 
 CC = gcc
 
-FLAGS = #-Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror
 
 SRC	=	main.c		\
 		parsing.c	\
